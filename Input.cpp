@@ -1,12 +1,17 @@
-#include "Input.h"
-#include "Audio.h"
 #include <iostream>
 #include <freeglut.h>
+#include <vector>
+#include "Input.h"
+#include "Audio.h"
+#include "ObjectManager.h"
+#include "glm.hpp"
+
 
 
 using namespace std;
 
-Audio audio;
+Audio1 audio2;
+ObjectManager objectmanager2;
 
 enum InputState
 {
@@ -20,30 +25,44 @@ InputState KeyState[255];
 InputState KeyStateS[255];
 
 
-void Input::processInput() 
+void Input::processInput()
 {
-
+	glm::vec3 temp;
 	if (KeyState['w'] == INPUT_DOWN || KeyStateS[GLUT_KEY_UP] == INPUT_DOWN)
 	{
-		objPos.y += 0.001f;
-
-		audio.playSound(2);
-
+		temp = objectmanager2.GetObjectPos();
+		temp.y += 0.1f;
+		objectmanager2.SetObjectPos(temp);
+		audio2.playSound(2);
 	}
 	if (KeyState['s'] == INPUT_DOWN || KeyStateS[GLUT_KEY_DOWN] == INPUT_DOWN)
 	{
-		objPos.y -= 0.001f;
+		temp = objectmanager2.GetObjectPos();
+		temp.y -= 0.001f;
+		objectmanager2.SetObjectPos(temp);
 	}
 	if (KeyState['a'] == INPUT_DOWN || KeyStateS[GLUT_KEY_LEFT] == INPUT_DOWN)
 	{
-		objPos.x -= 0.001f;
+		temp = objectmanager2.GetObjectPos();
+		temp.x -= 0.001f;
+		objectmanager2.SetObjectPos(temp);
 	}
 	if (KeyState['d'] == INPUT_DOWN || KeyStateS[GLUT_KEY_RIGHT] == INPUT_DOWN)
 	{
-		objPos.x += 0.001f;
+		temp = objectmanager2.GetObjectPos();
+		temp.x += 0.001f;
+		objectmanager2.SetObjectPos(temp);
 	}
 }
 
+
+Input::Input()
+{
+}
+
+Input::~Input()
+{
+}
 
 void Input::KeyboardDown(unsigned char key, int x, int y)
 {
@@ -55,12 +74,12 @@ void Input::KeyboardUp(unsigned char key, int x, int y)
 	KeyState[key] = INPUT_UP;
 }
 
-void Input::specialCharDown(unsigned int key, int x, int y)
+void Input::specialCharDown(int key, int x, int y)
 {
 	KeyStateS[key] = INPUT_DOWN;
 }
 
-void Input::specialCharUp(unsigned int key, int x, int y)
+void Input::specialCharUp(int key, int x, int y)
 {
 	KeyStateS[key] = INPUT_UP;
 }

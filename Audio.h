@@ -4,11 +4,11 @@
 #include <fmod.hpp>
 
 
-class Audio
+class Audio1
 {
 	public:
-		Audio();
-		~Audio();
+		Audio1();
+		~Audio1();
 		bool AudioInit();
 		void Create(const char* file, int sound);
 		void playSound(int sound);

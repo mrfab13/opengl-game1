@@ -1,16 +1,13 @@
-#include <iostream>
-#include <windows.h>
-
 #include "Audio.h"
 
 int a;
 
-void Audio::update()
+void Audio1::update()
 {
 	audioSystem->update();
 }
 
-void Audio::playSound(int sound)
+void Audio1::playSound(int sound)
 {
 	if (sound == 1)
 	{
@@ -26,7 +23,7 @@ void Audio::playSound(int sound)
 }
 
 
-void Audio::Create(const char* file, int sound)
+void Audio1::Create(const char* file, int sound)
 {
 	if (sound == 1)
 	{
@@ -38,7 +35,7 @@ void Audio::Create(const char* file, int sound)
 	}
 }
 
-bool Audio::AudioInit()
+bool Audio1::AudioInit()
 {
 	FMOD_RESULT result;
 	result = FMOD::System_Create(&audioSystem);
@@ -54,10 +51,10 @@ bool Audio::AudioInit()
 	return(true);
 }
 
-Audio::Audio()
+Audio1::Audio1()
 {
 }
 
-Audio::~Audio()
+Audio1::~Audio1()
 {
 }

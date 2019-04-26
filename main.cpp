@@ -12,6 +12,7 @@
 #include "gtc/type_ptr.hpp"
 #include "Audio.h"
 #include "Input.h"
+#include "ObjectManager.h"
 
 
 using namespace std;
@@ -26,14 +27,15 @@ GLuint texture;
 GLuint texture1;
 GLfloat currentTime;
 
-glm::vec3 objPos = glm::vec3(0.0f, 0.0f, 0.0f);
+
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HIGHT = 600;
 //deltatime
 
-Audio audio;
+Audio1 audio;
 Input input;
+ObjectManager objectmanager;
 
 
 
@@ -62,13 +64,12 @@ void Render()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 
-
 	glUseProgram(program);
 
 	//camera
-	glm::mat4 rotMat = glm::rotate(glm::mat4(), glm::radians(50.0f * currentTime), glm::vec3(0, 1, 0));
-	glm::vec4 newPos = rotMat * glm::vec4(0, 0, 3, 1);
-	camPos = glm::vec3(newPos); 
+	//glm::mat4 rotMat = glm::rotate(glm::mat4(), glm::radians(50.0f * currentTime), glm::vec3(0, 1, 0));
+	//glm::vec4 newPos = rotMat * glm::vec4(0, 0, 3, 1);
+	//camPos = glm::vec3(newPos); 
 
 	//view = glm::lookAt(camPos, camPos + camLookDir, camUpDir);
 	glm::mat4 view;
@@ -80,7 +81,7 @@ void Render()
 
 	//movement
 	glm::vec3 objPosition = glm::vec3(0.5f, 0.5f, 0.0f);
-	objPosition += objPos;
+	objPosition += objectmanager.GetObjectPos();
 	glm::mat4 translationMatrix = glm::translate(glm::mat4(), objPosition);
 
 	glm::vec3 rotationAxisZ = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -119,7 +120,8 @@ void Render()
 
 void Update()
 {
-	processInput();
+	input.processInput();
+
 	//<sound
 	audio.update();
 	
@@ -129,8 +131,8 @@ void Update()
 	//GLfloat deltaTime = currentTime - pasttime;
 	//pasttime = currentTime;
 	//currentTime = deltaTime;
-	system("cls");
-	cout << currentTime;
+	//system("cls");
+	//cout << currentTime;
 
 
 	glutPostRedisplay();
@@ -212,11 +214,11 @@ int main(int argc, char **argv)
 	glutDisplayFunc(Render);
 	glutIdleFunc(Update);
 
-	glutKeyboardFunc(KeyboardDown);
-	glutKeyboardUpFunc(KeyboardUp);
+	glutKeyboardFunc(Input::KeyboardDown);
+	glutKeyboardUpFunc(Input::KeyboardUp);
 
-	glutSpecialFunc(specialCharDown);
-	glutSpecialUpFunc(specialCharUp);
+	glutSpecialFunc(Input::specialCharDown);
+	glutSpecialUpFunc(Input::specialCharUp);
 
 	glutMainLoop();
 	return 0;
